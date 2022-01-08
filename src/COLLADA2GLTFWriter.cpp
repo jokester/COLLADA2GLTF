@@ -1029,9 +1029,9 @@ bool COLLADA2GLTF::Writer::addAttributesToDracoMesh(
       att_type = draco::GeometryAttribute::COLOR;
 
     draco::PointAttribute att;
-    att.Init(att_type, NULL, componentCount, draco::DT_FLOAT32,
+    att.Init(att_type, componentCount, draco::DT_FLOAT32,
              /* normalized */ false,
-             /* stride */ sizeof(float) * componentCount, /* byte_offset */ 0);
+             /* num_attribute_values */ componentCount);
     int att_id =
         dracoMesh->AddAttribute(att, /* identity_mapping */ true, vertexCount);
     draco::PointAttribute* att_ptr = dracoMesh->attribute(att_id);
@@ -1071,10 +1071,9 @@ bool COLLADA2GLTF::Writer::addControllerDataToDracoMesh(
 
   // Add joint indices.
   draco::PointAttribute joint_att;
-  joint_att.Init(att_type, NULL, componentCount, draco::DT_UINT16,
+  joint_att.Init(att_type, componentCount, draco::DT_UINT16,
                  /* normalized */ false,
-                 /* stride */ sizeof(uint16_t) * componentCount,
-                 /* byte_offset */ 0);
+                 /* num_attribute_values */ sizeof(uint16_t) * componentCount);
   int joint_att_id = dracoMesh->AddAttribute(
       joint_att, /* identity_mapping */ true, vertexCount);
   // Unique id is set to attribute id initially.
@@ -1090,8 +1089,8 @@ bool COLLADA2GLTF::Writer::addControllerDataToDracoMesh(
   // Add joint weights
   draco::PointAttribute weight_att;
   weight_att.Init(
-      att_type, NULL, componentCount, draco::DT_FLOAT32, /* normalized */ false,
-      /* stride */ sizeof(float) * componentCount, /* byte_offset */ 0);
+      att_type, componentCount, draco::DT_FLOAT32, /* normalized */ false,
+      /* num_attribute_values */ componentCount);
   int weight_att_id = dracoMesh->AddAttribute(
       weight_att, /* identity_mapping */ true, vertexCount);
   // Unique id is set to attribute id initially.
